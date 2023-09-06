@@ -1,4 +1,5 @@
 from random import shuffle, randrange
+from colorama import Fore, Back, Style, init
 
 def make_maze(w = 10, h = 10):
     """ Cria um labirinto aleatório e o desenha na tela em ASCII Art
@@ -36,50 +37,36 @@ def make_maze(w = 10, h = 10):
     # Visita a célula de origem
     walk(randrange(w), randrange(h))
 
-    # Imprime o resultado na tela
-    print(ver)
-    print("\n")
-    print(hor)
-    
-    for (a, b) in zip(hor, ver):
-        print(''.join(a + ['\n'] + b))
-    
-    # result = zip(hor, ver)
-    
-    # result1 = (list(result))
-    # print((result1[0][0][0]))
-    # print((result1[0][1][0]))
-    
-    # n_col = (len(result1)-1)*3+1
-    # n_lin = (len(result1)-1)*2+1
-    # print(n_lin,n_col)
-    
-    # mat = []
-    
-    # for lista in result1:
-    #     l1 = lista[0]
-    #     l2 = lista[1]
-    #     aux = []
-    #     for str1 in l1:
-    #         for s in str1:
-    #             if s!=" ":
-    #                 aux.append(1)
-    #             else:
-    #                 aux.append(0)
-    #         mat.append(aux)
+    # Função para encontrar um caminho no labirinto
+    def find_path(x, y):
+        if x < 0 or x >= w or y < 0 or y >= h or vis[y][x] == 1:
+            return False  # Fora dos limites ou já visitada
+        if x == w - 1:
+            return True  # Chegou à coluna final, encontrou o caminho
+
+        vis[y][x] = 1  # Marca a célula como visitada
+
+        # Tenta mover para a esquerda, direita, cima ou baixo
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        shuffle(directions)
+        for dx, dy in directions:
+            if find_path(x + dx, y + dy):
+                return True
+
+        return False
+
+    # Encontra o ponto de partida e inicia a busca pelo caminho
+    print(find_path(0, 10))
         
-    #     aux = []
-    #     for str1 in l2:
-    #         for s in str1:
-    #             if s!=" ":
-    #                 aux.append(1)
-    #             else:
-    #                 aux.append(0)
-    #         mat.append(aux)
-    
-    # print(mat)
-            
-    
-  
-    
+
+    # Desenha o resultado na tela
+    for i, (a, b) in enumerate(zip(hor, ver)):
+        row = ''.join(a + ['\n'] + b)
+
+        # Adiciona o caractere '#' azul no caminho encontrado
+        if i >= 1 and i < h - 1:
+            row = Back.BLUE + Fore.WHITE + row[:3] + '#' + row[4:-2] + row[-2:] + Style.RESET_ALL
+
+        print(row)
+
 make_maze()
