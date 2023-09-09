@@ -1,7 +1,7 @@
 from random import shuffle, randrange
 from colorama import Fore, Back, Style, init
 
-def make_maze(w = 10, h = 10):
+def make_maze(w = 2, h = 2):
     """ Cria um labirinto aleatório e o desenha na tela em ASCII Art
         Parâmetros:
             w - o número de colunas do labirinto (padrão: 16)
@@ -26,12 +26,13 @@ def make_maze(w = 10, h = 10):
         vis[y][x] = 1
 
         d = [(x - 1, y), (x, y + 1), (x + 1, y), (x, y - 1)]
+        print(d)
         shuffle(d)
         for (xx, yy) in d:
             if vis[yy][xx]: continue
             # Remove a parede entre células
-            if xx == x: hor[max(y, yy)][x] = "+  "
-            if yy == y: ver[y][max(x, xx)] = "   "
+            ##if xx == x: hor[max(y, yy)][x] = "+  "
+            #if yy == y: ver[y][max(x, xx)] = "   "
             walk(xx, yy)
 
     # Visita a célula de origem
@@ -64,8 +65,8 @@ def make_maze(w = 10, h = 10):
         row = ''.join(a + ['\n'] + b)
 
         # Adiciona o caractere '#' azul no caminho encontrado
-        if i >= 1 and i < h - 1:
-            row = Back.BLUE + Fore.WHITE + row[:3] + '#' + row[4:-2] + row[-2:] + Style.RESET_ALL
+        #if i >= 1 and i < h - 1:
+            #row = Back.BLUE + Fore.WHITE + row[:3] + row[4:-2] + row[-2:] + Style.RESET_ALL
 
         print(row)
 
