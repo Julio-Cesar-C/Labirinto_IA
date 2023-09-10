@@ -21,7 +21,7 @@ def make_maze(w, h):
     hor = [["+--"] * w + ['+'] for _ in range(h + 1)]
 
     # Cria uma matriz com valor padrão 1 para cada coluna(w) e linha(h)
-    matriz = [[1 for _ in range((w*2)-1)] for i in range(h+1)]
+    matriz = [[1 for _ in range((w*2))] for i in range((h*2)-1)]
 
     def walk(x, y):
         # Visita uma célula e todas as suas células adjacentes,
@@ -37,12 +37,17 @@ def make_maze(w, h):
                 continue
             # Remove a parede entre células
             if xx == x:
-                hor[max(y, yy)][x] = "+  "
-                matriz[max(y, yy)][x] = 0
+                hor[max(y, yy)][x] = "+  "#"+  "
+                matriz[max(y, yy)][x+1] = 0
+                matriz[max(y, yy)][x+2] = 0
+
 
             if yy == y:
-                ver[y][max(x, xx)] = "   "
-                matriz[y][max(x, xx)] = 0
+                ver[y][max(x, xx)] = "   " #"   "
+                matriz[y+1][(max(x, xx))] = 0
+                matriz[y+2][max(x, xx)] = 0
+
+
             walk(xx, yy)
 
     # Visita a célula de origem
@@ -68,46 +73,68 @@ def make_maze(w, h):
 
     # Encontra o ponto de partida e inicia a busca pelo caminho
     print(find_path(0, 10))
+    z =-1
 
     # Desenha o resultado na tela
     for i, (a, b) in enumerate(zip(hor, ver)):
-        row = ''.join(a + ['\n'] + b)
+        z=z+1
+        row = ''.join([str(z)]+[" |"]+a + ['\n']+[str(z+1)]+[" |"] + b)
+        z=z+1
+
+
 
         # Adiciona o caractere '#' azul no caminho encontrado
         # if i >= 1 and i < h - 1:
         # row = Back.BLUE + Fore.WHITE + row[:3] + row[4:-2] + row[-2:] + Style.RESET_ALL
-
         print(row)
 
-    for y in range(h+1):
-        for x in range((w*2)-1):
+    i =-1
+    print('')
+
+    for y in range((w*2)-1):
+        i=i+1
+        print(str(i)+" |", end='')
+
+        for x in range((h*2)):
+
             print(matriz[y][x], end='')
+        print("|", end='')
+
         print('')
     return matriz
 
 
-def draw_grid(container, heigth, width):
+def draw_grid(container, height, width):
     """
     Cria uma celula para cada medida H e W
     """
     for x in range(width):
         row = []
-        for y in range(heigth):
+        for y in range(height):
             cell = tk.Entry(container, width=2)
             cell.grid(row=x, column=y)
             row.append(cell)
 
 
 def paint_outline(matriz, container):
-    for h in range(len(matriz)):
+    #Preenche verticalmente
+    for h in range(len(matriz)+1):
 
         # Pinta toda a primeira linha de preto
         entry.change_entry_color(container, h, 0, "black")
         # Pinta toda a ultima linha de preto
-        entry.change_entry_color(container, h, len(matriz), "black")
+        entry.change_entry_color(container, h, len(matriz)+1, "black")
 
-    for w in range(len(matriz[0])):
+    #Preenche horizontalmente
+    for w in range(len(matriz[0])+1):
         # Pinta toda a primeira linha de preto
         entry.change_entry_color(container, 0, w, "black")
         # Pinta toda a ultima linha de preto
-        entry.change_entry_color(container, len(matriz[0])-2, w, "black")
+        entry.change_entry_color(container, len(matriz[0]), w, "black")
+
+def paint_maze(matriz, container):
+    for height in range(len(matriz)):
+        for width in range(len(matriz)):
+            if(matriz[height][width]==0):
+                entry.change_entry_color(container, height+1, width+1, "grey") #+1 because top and last column not counts as its fixed
+
