@@ -1,15 +1,14 @@
 import entry
 import tkinter as tk
+import Grid
 
 # Variaveis do tamanho da janela do Tkinter
 window_height = 350
 window_width = 350
 
 # Variaveis do tamanho do grid
-width = 10
-height = 10
-
-cell_matrix = []
+width = 4
+height = 4
 
 root = tk.Tk()
 
@@ -19,16 +18,11 @@ class Application(tk.Frame):
         container1 = tk.Frame(master, borderwidth=2, relief="groove")
         container1.pack(fill=tk.X, pady=10, padx=5)
 
-        # Cria uma celula para cada medida H e W
-        for x in range(height):
-            row = []
-            for y in range(height):
-                cell = tk.Entry(container1, width=2, text="A")
-                cell.grid(row=x, column=y)
-                row.append(cell)
-            cell_matrix.append(row)
+        # Obtem matriz com cordenadas do grid
+        matriz = Grid.make_maze(height, width)
 
-        entry.change_entry_color(container1, 1, 1, "blue")
+        Grid.draw_grid(container1, height+2, width+2)
+        Grid.paint_outline(matriz, container1)
 
 
 # Altera o posicionamento da tela para o meio do monitor principal
@@ -41,5 +35,6 @@ root.geometry("{}x{}+{}+{}".format(window_width,
 
 Application(root)
 root.title("Labirinto IA")
-root.resizable(False, False) # Impede o redimensionamento horizontal e vertical
+# Impede o redimensionamento horizontal e vertical
+root.resizable(False, False)
 root.mainloop()

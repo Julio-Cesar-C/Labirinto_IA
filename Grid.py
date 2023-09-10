@@ -1,7 +1,9 @@
 from random import shuffle, randrange
-from colorama import Fore, Back, Style, init
+import entry
+import tkinter as tk
 
-def make_maze(w = 2, h = 2):
+
+def make_maze(w, h):
     """ Cria um labirinto aleatório e o desenha na tela em ASCII Art
         Parâmetros:
             w - o número de colunas do labirinto (padrão: 16)
@@ -18,21 +20,29 @@ def make_maze(w = 2, h = 2):
     ver = [["|  "] * w + ['|'] for _ in range(h)] + [[]]
     hor = [["+--"] * w + ['+'] for _ in range(h + 1)]
 
+    # Cria uma matriz com valor padrão 1 para cada coluna(w) e linha(h)
+    matriz = [[1 for _ in range((w*2)-1)] for i in range(h+1)]
 
     def walk(x, y):
         # Visita uma célula e todas as suas células adjacentes,
         #    em profundidade, unindo-as ao labirinto corrente.
-        
+
         vis[y][x] = 1
 
         d = [(x - 1, y), (x, y + 1), (x + 1, y), (x, y - 1)]
         print(d)
         shuffle(d)
         for (xx, yy) in d:
-            if vis[yy][xx]: continue
+            if vis[yy][xx]:
+                continue
             # Remove a parede entre células
-            ##if xx == x: hor[max(y, yy)][x] = "+  "
-            #if yy == y: ver[y][max(x, xx)] = "   "
+            if xx == x:
+                hor[max(y, yy)][x] = "+  "
+                matriz[max(y, yy)][x] = 0
+
+            if yy == y:
+                ver[y][max(x, xx)] = "   "
+                matriz[y][max(x, xx)] = 0
             walk(xx, yy)
 
     # Visita a célula de origem
@@ -58,16 +68,46 @@ def make_maze(w = 2, h = 2):
 
     # Encontra o ponto de partida e inicia a busca pelo caminho
     print(find_path(0, 10))
-        
 
     # Desenha o resultado na tela
     for i, (a, b) in enumerate(zip(hor, ver)):
         row = ''.join(a + ['\n'] + b)
 
         # Adiciona o caractere '#' azul no caminho encontrado
-        #if i >= 1 and i < h - 1:
-            #row = Back.BLUE + Fore.WHITE + row[:3] + row[4:-2] + row[-2:] + Style.RESET_ALL
+        # if i >= 1 and i < h - 1:
+        # row = Back.BLUE + Fore.WHITE + row[:3] + row[4:-2] + row[-2:] + Style.RESET_ALL
 
         print(row)
 
-make_maze()
+    for y in range(h+1):
+        for x in range((w*2)-1):
+            print(matriz[y][x], end='')
+        print('')
+    return matriz
+
+
+def draw_grid(container, heigth, width):
+    """
+    Cria uma celula para cada medida H e W
+    """
+    for x in range(width):
+        row = []
+        for y in range(heigth):
+            cell = tk.Entry(container, width=2)
+            cell.grid(row=x, column=y)
+            row.append(cell)
+
+
+def paint_outline(matriz, container):
+    for h in range(len(matriz)):
+
+        # Pinta toda a primeira linha de preto
+        entry.change_entry_color(container, h, 0, "black")
+        # Pinta toda a ultima linha de preto
+        entry.change_entry_color(container, h, len(matriz), "black")
+
+    for w in range(len(matriz[0])):
+        # Pinta toda a primeira linha de preto
+        entry.change_entry_color(container, 0, w, "black")
+        # Pinta toda a ultima linha de preto
+        entry.change_entry_color(container, len(matriz[0])-2, w, "black")
