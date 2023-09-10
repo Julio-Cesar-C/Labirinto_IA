@@ -72,7 +72,7 @@ def make_maze(w, h):
         return False
 
     # Encontra o ponto de partida e inicia a busca pelo caminho
-    print(find_path(0, 10))
+    #print(find_path(0, 10))
     z =-1
 
     # Desenha o resultado na tela
@@ -81,25 +81,18 @@ def make_maze(w, h):
         row = ''.join([str(z)]+[" |"]+a + ['\n']+[str(z+1)]+[" |"] + b)
         z=z+1
 
-
-
-        # Adiciona o caractere '#' azul no caminho encontrado
-        # if i >= 1 and i < h - 1:
-        # row = Back.BLUE + Fore.WHITE + row[:3] + row[4:-2] + row[-2:] + Style.RESET_ALL
         print(row)
 
     i =-1
     print('')
 
+    #(Temporaly) prints matriz formatted
     for y in range((w*2)-1):
         i=i+1
         print(str(i)+" |", end='')
-
         for x in range((h*2)):
-
             print(matriz[y][x], end='')
         print("|", end='')
-
         print('')
     return matriz
 
