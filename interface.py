@@ -1,14 +1,16 @@
 import tkinter as tk
 import Grid
+import maze
 
 # Variaveis do tamanho da janela do Tkinter
-window_height = 350
+window_height = 550
 window_width = 350
 
 root = tk.Tk()
 
 
 class Application(tk.Frame):
+    MATRIZ_GLOBAL=[]
     entry_width = None
     entry_height = None
 
@@ -40,24 +42,48 @@ class Application(tk.Frame):
         self.entry_height = tk.Entry(container_height)
         self.entry_height.pack(side=tk.RIGHT)
 
+
+        #Find path container
+        container_find_path = tk.Frame(
+            master, height=200, borderwidth=2, relief="groove")
+        container_find_path.pack(fill=tk.X, padx=5, pady=5)
+        # End
+        container_end = tk.Frame(
+            container_find_path, height=200, borderwidth=2)
+        container_end.pack(fill=tk.X, padx=5, pady=5)
+
+        text_end = tk.Label(container_end, text="Width",)
+        text_end.pack(side=tk.LEFT)
+
+        self.entry_end = tk.Entry(container_end)
+        self.entry_end.pack(side=tk.RIGHT)
+
         container_maze = tk.Frame(master, borderwidth=2, relief="groove")
         # Button Make Maze
         button_make = tk.Button(
             text="Make Maze", command=lambda: self.generate_maze(container_maze))
         button_make.pack()
+        button_find_path = tk.Button(
+            text="Find Path", command=lambda: self.activate_find_path())
+        button_find_path.pack()
 
         container_maze.pack(fill=tk.X, pady=10, padx=5)
+
+
 
     def generate_maze(self, container):
         self.clean_maze_container(container) # Limpa o container container_maze se já houver widgets
 
         # Obtem matriz com cordenadas do grid 
-        matriz = Grid.make_maze(
+        self.MATRIZ_GLOBAL = Grid.make_maze(
             int(self.entry_height.get()), int(self.entry_width.get()))
 
-        Grid.draw_grid(container, len(matriz)-1, len(matriz))
-        Grid.paint_maze(matriz, container)
-        Grid.paint_outline(matriz, container)
+        Grid.draw_grid(container, len(self.MATRIZ_GLOBAL), len(self.MATRIZ_GLOBAL))
+        Grid.paint_maze(self.MATRIZ_GLOBAL, container)
+        Grid.paint_outline(self.MATRIZ_GLOBAL, container)
+
+    def activate_find_path(self):
+        maze.find_path(self.MATRIZ_GLOBAL,inicio = (0, 0),fim = (len(self.MATRIZ_GLOBAL) - 1, len(self.MATRIZ_GLOBAL[0]) - 1))
 
 
 

@@ -53,23 +53,6 @@ def make_maze(w, h):
     # Visita a célula de origem
     walk(randrange(w), randrange(h))
 
-    # Função para encontrar um caminho no labirinto
-    def find_path(x, y):
-        if x < 0 or x >= w or y < 0 or y >= h or vis[y][x] == 1:
-            return False  # Fora dos limites ou já visitada
-        if x == w - 1:
-            return True  # Chegou à coluna final, encontrou o caminho
-
-        vis[y][x] = 1  # Marca a célula como visitada
-
-        # Tenta mover para a esquerda, direita, cima ou baixo
-        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-        shuffle(directions)
-        for dx, dy in directions:
-            if find_path(x + dx, y + dy):
-                return True
-
-        return False
 
     # Encontra o ponto de partida e inicia a busca pelo caminho
     #print(find_path(0, 10))
@@ -130,18 +113,21 @@ def draw_grid(container, height, width):
 def paint_outline(matriz, container):
     #Preenche verticalmente
     for h in range((len(matriz)-1)):
-
+        # Define o cabecalho com as cordenadas
+        entry.change_entry_text(container, h+1, 0, h)
         # Pinta toda a primeira linha de preto
-        entry.change_entry_color(container, h, 0, "black")
+        entry.change_entry_color(container, h+1, 1, "black")
         # Pinta toda a ultima linha de preto
-        entry.change_entry_color(container, h, len(matriz)-2, "black")
+        entry.change_entry_color(container, h+1, len(matriz)-1, "black")
 
     #Preenche horizontalmente
     for w in range(len(matriz[0])):
+        # Define o cabecalho com as cordenadas
+        entry.change_entry_text(container, 0, w+1, w)
         # Pinta toda a primeira linha de preto
-        entry.change_entry_color(container, 0, w, "black")
+        entry.change_entry_color(container, 1, w+1, "black")
         # Pinta toda a ultima linha de preto
-        entry.change_entry_color(container, len(matriz)-2, w, "black")
+        entry.change_entry_color(container, len(matriz)-1, w+1, "black")
 
 def paint_maze(matriz, container):
     rowCount=0
@@ -149,7 +135,7 @@ def paint_maze(matriz, container):
         colCount = 0
         for char in row:
             if(char==1):
-                entry.change_entry_color(container, rowCount, colCount, "grey")
+                entry.change_entry_color(container, rowCount+1, colCount+1, "grey")
             colCount=colCount+1
         rowCount=rowCount+1
 
