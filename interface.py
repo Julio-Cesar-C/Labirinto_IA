@@ -64,7 +64,7 @@ class Application(tk.Frame):
             text="Make Maze", command=lambda: self.generate_maze(container_maze))
         button_make.pack()
         button_find_path = tk.Button(
-            text="Find Path", command=lambda: self.activate_find_path())
+            text="Find Path", command=lambda: self.activate_find_path(container_maze))
         button_find_path.pack()
 
         container_maze.pack(fill=tk.X, pady=10, padx=5)
@@ -82,8 +82,8 @@ class Application(tk.Frame):
         Grid.paint_maze(self.MATRIZ_GLOBAL, container)
         Grid.paint_outline(self.MATRIZ_GLOBAL, container)
 
-    def activate_find_path(self):
-        maze.find_path(self.MATRIZ_GLOBAL,inicio = (1, 1),fim = (len(self.MATRIZ_GLOBAL) - 3, int(self.entry_end.get())))
+    def activate_find_path(self,container):
+        Grid.paint_path(maze.find_path(self.MATRIZ_GLOBAL,inicio = (1, 1),fim = (len(self.MATRIZ_GLOBAL) - 3, int(self.entry_end.get()))),container)
 
 
 
