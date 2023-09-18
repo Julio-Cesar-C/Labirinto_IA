@@ -3,8 +3,8 @@ import Grid
 import maze
 
 # Variaveis do tamanho da janela do Tkinter
-window_height = 550
-window_width = 350
+window_height = 600
+window_width = 450
 
 root = tk.Tk()
 
@@ -52,7 +52,7 @@ class Application(tk.Frame):
             container_find_path, height=200, borderwidth=2)
         container_end.pack(fill=tk.X, padx=5, pady=5)
 
-        text_end = tk.Label(container_end, text="Width",)
+        text_end = tk.Label(container_end, text="End coordinate",)
         text_end.pack(side=tk.LEFT)
 
         self.entry_end = tk.Entry(container_end)

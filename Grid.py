@@ -135,7 +135,7 @@ def paint_maze(matriz, container):
         colCount = 0
         for char in row:
             if(char==1):
-                entry.change_entry_color(container, rowCount+1, colCount+1, "grey")
+                entry.change_entry_color(container, rowCount+1, colCount+1, "green")
             colCount=colCount+1
         rowCount=rowCount+1
 
