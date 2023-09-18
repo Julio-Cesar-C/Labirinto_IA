@@ -83,7 +83,7 @@ class Application(tk.Frame):
         Grid.paint_outline(self.MATRIZ_GLOBAL, container)
 
     def activate_find_path(self):
-        maze.find_path(self.MATRIZ_GLOBAL,inicio = (0, 0),fim = (len(self.MATRIZ_GLOBAL) - 1, len(self.MATRIZ_GLOBAL[0]) - 1))
+        maze.find_path(self.MATRIZ_GLOBAL,inicio = (1, 1),fim = (len(self.MATRIZ_GLOBAL) - 3, int(self.entry_end.get())))
 
 
 
