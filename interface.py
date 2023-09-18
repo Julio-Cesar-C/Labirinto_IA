@@ -55,10 +55,9 @@ class Application(tk.Frame):
         matriz = Grid.make_maze(
             int(self.entry_height.get()), int(self.entry_width.get()))
 
-        Grid.draw_grid(container, len(matriz)+
-                       2, len(matriz[0])+2)
-        Grid.paint_outline(matriz, container)
+        Grid.draw_grid(container, len(matriz)+2, len(matriz))
         Grid.paint_maze(matriz, container)
+        Grid.paint_outline(matriz, container)
 
 
 
