@@ -17,8 +17,8 @@ def make_maze(w, h):
 
     # Linhas contendo as células e linhas entre-células
     # Inicia-se com todas as células disjuntas (paredes entre todas elas)
-    ver = [["|  "] * w + ['|'] for _ in range(h)] + [[]]
-    hor = [["+--"] * w + ['+'] for _ in range(h + 1)]
+    ver = [["| "] * w + ['|'] for _ in range(h)] + [[]]
+    hor = [["+-"] * w + ['+'] for _ in range(h + 1)]
 
     # Cria uma matriz com valor padrão 1 para cada coluna(w) e linha(h)
     #matriz = [[1 for _ in range((w*2))] for i in range((h*2)-1)]
@@ -37,13 +37,13 @@ def make_maze(w, h):
                 continue
             # Remove a parede entre células
             if xx == x:
-                hor[max(y, yy)][x] = "+  "#"+  "
+                hor[max(y, yy)][x] = "+ "#"+  "
                 #matriz[max(y, yy)][x+1] = 0
                 #matriz[max(y, yy)][x+2] = 0
 
 
             if yy == y:
-                ver[y][max(x, xx)] = "   " #"   "
+                ver[y][max(x, xx)] = "  " #"   "
                 #matriz[y+1][(max(x, xx))] = 0
                 #matriz[y+2][max(x, xx)] = 0
 
@@ -89,7 +89,7 @@ def make_maze(w, h):
     print('')
 
     #primeira parte se refere a linha, a segunda se refere a altura
-    matrizConvertida=[[0 for _ in range((w*2)*3+1)] for i in range((h*2)+2)]
+    matrizConvertida=[[0 for _ in range((w*2)+1)] for i in range((h*2)+2)]
 
     rowCount=0
     for row in matriz:
@@ -115,17 +115,6 @@ def make_maze(w, h):
         """
     return matrizConvertida
 
-# Função para remover colunas pares
-def remover_colunas_pares(matriz):
-    matriz_sem_colunas_pares = []
-    for linha in matriz:
-        nova_linha = []
-        for coluna, valor in enumerate(linha):
-            if coluna % 2 == 0:
-                nova_linha.append(valor)
-        matriz_sem_colunas_pares.append(nova_linha)
-    return matriz_sem_colunas_pares
-
 def draw_grid(container, height, width):
     """
     Cria uma celula para cada medida H e W
@@ -145,7 +134,7 @@ def paint_outline(matriz, container):
         # Pinta toda a primeira linha de preto
         entry.change_entry_color(container, h, 0, "black")
         # Pinta toda a ultima linha de preto
-        entry.change_entry_color(container, h, len(matriz)+1, "black")
+        entry.change_entry_color(container, h, len(matriz)-2, "black")
 
     #Preenche horizontalmente
     for w in range(len(matriz[0])):
