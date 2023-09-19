@@ -58,6 +58,12 @@ class Application(tk.Frame):
         self.entry_end = tk.Entry(container_end)
         self.entry_end.pack(side=tk.RIGHT)
 
+        text_end1 = tk.Label(container_end, text="Find coordinate (last row) x",)
+        text_end1.pack(side=tk.LEFT)
+
+        self.entry_end1 = tk.Entry(container_end)
+        self.entry_end1.pack(side=tk.RIGHT)
+
         container_maze = tk.Frame(master, borderwidth=2, relief="groove")
         # Button Make Maze
         button_make = tk.Button(
@@ -83,7 +89,7 @@ class Application(tk.Frame):
         Grid.paint_outline(self.MATRIZ_GLOBAL, container)
 
     def activate_find_path(self,container):
-        Grid.paint_path(maze.find_path(self.MATRIZ_GLOBAL,inicio = (1, 1),fim = (len(self.MATRIZ_GLOBAL) - 3, int(self.entry_end.get()))),container)
+        Grid.paint_path(maze.amplitude(self.MATRIZ_GLOBAL,inicio = [1, 1],fim = [int(self.entry_end1.get()) , int(self.entry_end.get())]),container)
 
 
 
@@ -103,5 +109,5 @@ root.geometry("{}x{}+{}+{}".format(window_width,
 Application(root)
 root.title("Labirinto IA")
 # Impede o redimensionamento horizontal e vertical
-root.resizable(False, False)
+#root.resizable(False, False)
 root.mainloop()
