@@ -139,9 +139,9 @@ def paint_maze(matriz, container):
             colCount=colCount+1
         rowCount=rowCount+1
 
-def paint_path(matrizCaminho,container):
+def paint_path(matriz,container):
     rowCount=0
-    for row in matrizCaminho:
+    for row in matriz:
         colCount = 0
         for char in row:
             if(char==2):
