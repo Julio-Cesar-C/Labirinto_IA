@@ -4,7 +4,13 @@
 run `interface.py`
 
 ### Summary
-Projeto desenvolvido nas aulas de IA para testar a busca em profundidade em um Labirinto criado dinamicamente.
+Projeto desenvolvido nas aulas de IA para testar algoritimos em um Labirinto criado dinamicamente.
+
+Algoritimos suportados:
+- Amplitude
+- Profundidade
+- Profundidade Limitada
+- Aprofundamento Interativo
 
 ### Dependencies
 - Tkinter
